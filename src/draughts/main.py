@@ -1,5 +1,6 @@
 import pgzrun
 from board import square_colour, board_coordinates, SQUARE_SIZE
+from game import Game
 
 WIDTH = 900
 HEIGHT = 900
@@ -7,9 +8,10 @@ HEIGHT = 900
 def draw():
     screen.clear()
     screen.fill("dark orange")
-    draw_board(SQUARE_SIZE/2)
-    # draw_square((98654,4543),"black")
-    # draw_square((859483,549538),"white")
+    border = SQUARE_SIZE/2
+    draw_board(border)
+    game = Game(border)
+    draw_pieces(game)
     return
 
 # Draws the draughts board.
@@ -30,5 +32,8 @@ def draw_square(centre, colour):
     centre[1]-(SQUARE_SIZE/2)
     centre[0]+(SQUARE_SIZE/2)
     centre[1]+(SQUARE_SIZE/2)
+
+def draw_pieces(game):
+    game.draw_pieces()
 
 pgzrun.go()

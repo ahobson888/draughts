@@ -1,5 +1,3 @@
-from pygame import Rect
-
 SQUARE_SIZE = 100
 
 def square_colour(horizontal, vertical):
