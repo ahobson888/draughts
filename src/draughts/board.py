@@ -18,6 +18,5 @@ def draw_square(centre, colour):
 # of a square on the draughts board, given by its
 # horizontal and vertical position.
 def board_coordinates(horizontal, vertical):
-    # todo
-    return (0, 100)
+    return (horizontal*SQUARE_SIZE - SQUARE_SIZE/2, vertical*SQUARE_SIZE - SQUARE_SIZE/2)
 
