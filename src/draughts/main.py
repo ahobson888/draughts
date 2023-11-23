@@ -1,9 +1,6 @@
 import pgzrun
-from board import square_colour, board_coordinates, SQUARE_SIZE
-from game import Game
-
-WIDTH = 900
-HEIGHT = 900
+from draughts.board import square_colour, board_coordinates, SQUARE_SIZE, HEIGHT
+from draughts.game import Game
 
 def draw():
     screen.clear()

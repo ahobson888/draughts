@@ -1,5 +1,5 @@
 from pgzero.builtins import Actor
-from board import SQUARE_SIZE
+from draughts.board import SQUARE_SIZE
 
 class Piece(Actor):
     def __init__(self, name, pos):

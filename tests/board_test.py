@@ -7,17 +7,17 @@ def test_board_coordinates():
     horizontal = 1
     vertical = 1
     result = board_coordinates(horizontal, vertical, border)
-    assert(result == (50 + SQUARE_SIZE/2, 50 + SQUARE_SIZE/2))
+    assert(result == (50 + SQUARE_SIZE/2,  HEIGHT - (50 + SQUARE_SIZE/2)))
 
     horizontal = 5
     vertical = 2
     result = board_coordinates(horizontal, vertical, border)
-    assert(result == ((50 + 9*SQUARE_SIZE/2), (50 + 3*SQUARE_SIZE/2)))
+    assert(result == ((50 + 9*SQUARE_SIZE/2), HEIGHT - (50 + 3*SQUARE_SIZE/2)))
 
     horizontal = 8
     vertical = 8
     result = board_coordinates(horizontal, vertical, border)
-    assert(result == ((50 + 15*SQUARE_SIZE/2), (50 + 15*SQUARE_SIZE/2)))
+    assert(result == ((50 + 15*SQUARE_SIZE/2), HEIGHT - (50 + 15*SQUARE_SIZE/2)))
 
     horizontal = 10
     vertical = 8
