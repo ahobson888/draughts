@@ -15,7 +15,15 @@ class Game():
         for piece in self.pieces:
             piece.draw()
     
-    # Returs a list of starting positions for 1 colour of pieces
+    # Returns a list of starting positions for 1 colour of pieces
     def starting_positions(self, is_black):
-        # TODO
-        return [(1, 1),(1, 3)]
+        positions = []
+        for row in range(1, 4):
+            for column in range(1, 9):
+                if ((row + column) % 2) == 0:
+                    if is_black:
+                        positions.append((row, column))
+                    else:
+                        positions.append((9 - row, 9 - column))
+        return positions
+        

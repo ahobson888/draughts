@@ -11,5 +11,5 @@ def test_starting_positions():
     assert(result == expected)
 
     result = target.starting_positions(False)
-    expected = ((8, 1),(8, 3),(8, 5),(8, 7),(7, 2),(7, 4),(7, 6),(7, 8),(6, 1),(6, 3),(6, 5),(6, 7))
+    expected = [(8, 8),(8, 6),(8, 4),(8, 2),(7, 7),(7, 5),(7, 3),(7, 1),(6, 8),(6, 6),(6, 4),(6, 2)]
     assert(result == expected)
