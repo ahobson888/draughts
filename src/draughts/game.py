@@ -4,12 +4,19 @@ from draughts.board import board_coordinates
 class Game():
     def __init__(self, border) -> None:
         self.border = border
-        # Game has a list of pieces.
-        # self.pieces = self.make_pieces()
 
-    def make_pieces(self):
+    def start(self, is_black):
+        # Game has a list of pieces.
+        self.pieces = self.make_pieces()
+
+    # make all the pieces. 
+    # returns a list of pieces.
+    def make_pieces(self, is_black):
+        
+
+        return []
         # TODO: make all of the pieces, not just one.
-        return [Piece("white-piece", board_coordinates(1, 1, self.border))]
+        # return [Piece("white-piece", board_coordinates(1, 1, self.border))]
     
     def draw_pieces(self):
         for piece in self.pieces:
