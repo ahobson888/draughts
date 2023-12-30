@@ -1,3 +1,5 @@
-.PHONY: test
+.PHONY: test run
 test:
-	PYTHONPATH=./src pytest
+	PYTHONPATH=./src pytest -W ignore::DeprecationWarning
+run:
+	python ./src/draughts/main.py
