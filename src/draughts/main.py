@@ -1,6 +1,10 @@
 import pgzrun
-from draughts.board import square_colour, board_coordinates, SQUARE_SIZE, HEIGHT
+from draughts.board import square_colour, board_coordinates, SQUARE_SIZE
 from draughts.game import Game
+
+# Canvas size:
+WIDTH = 900
+HEIGHT = 900
 
 def draw():
     screen.clear()
@@ -8,7 +12,7 @@ def draw():
     border = SQUARE_SIZE/2
     draw_board(border)
     game = Game(border)
-    draw_pieces(game)
+    start(game)
     return
 
 # Draws the draughts board.
@@ -30,7 +34,8 @@ def draw_square(centre, colour):
     centre[0]+(SQUARE_SIZE/2)
     centre[1]+(SQUARE_SIZE/2)
 
-def draw_pieces(game):
+def start(game):
+    game.start()
     game.draw_pieces()
 
 pgzrun.go()

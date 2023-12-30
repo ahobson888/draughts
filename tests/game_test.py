@@ -1,5 +1,5 @@
 from draughts.game import Game
-
+import pygame
 
 def test_starting_positions():
 
@@ -17,11 +17,24 @@ def test_starting_positions():
 
 def test_make_pieces():
 
-    target = Game(50)
+    # Initialise pygame, to avoid the error:
+    # pygame.error: cannot convert without pygame.display initialized
+    
+    pygame.init()
+    pygame.display.set_mode((1024, 768))
 
+    target = Game(50)
+    
     result = target.make_pieces(True)
     # Check that the right number of pieces were made:
     assert(len(result) == 12)
     # Check all of the pieces are black:
     for piece in result:
         assert(piece.is_black())
+
+    result = target.make_pieces(False)
+    # Check that the right number of pieces were made:
+    assert(len(result) == 12)
+    # Check all of the pieces are white:
+    for piece in result:
+        assert(not piece.is_black())

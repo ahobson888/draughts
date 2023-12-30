@@ -5,21 +5,30 @@ class Game():
     def __init__(self, border) -> None:
         self.border = border
 
-    def start(self, is_black):
-        # Game has a list of pieces.
-        self.pieces = self.make_pieces()
+    def start(self):
+        # Game has two list of pieces.
+        self.black_pieces = self.make_pieces(True)
+        self.white_pieces = self.make_pieces(False)
 
     # make all the pieces. 
     # returns a list of pieces.
     def make_pieces(self, is_black):
-        
-
-        return []
-        # TODO: make all of the pieces, not just one.
-        # return [Piece("white-piece", board_coordinates(1, 1, self.border))]
+        start_positions = self.starting_positions(is_black)
+        pieces = []
+        for pos in start_positions:
+            coords = board_coordinates(pos[1], pos[0], self.border)
+            pieces.append(Piece(self.piece_name(is_black), coords))
+        return pieces
     
+    def piece_name(self, is_black):
+        if is_black:
+            return "black-piece"
+        return "white-piece"
+
     def draw_pieces(self):
-        for piece in self.pieces:
+        for piece in self.black_pieces:
+            piece.draw()
+        for piece in self.white_pieces:
             piece.draw()
     
     # Returns a list of starting positions for 1 colour of pieces
