@@ -1,9 +1,8 @@
 from draughts.piece import Piece
-from draughts.board import board_coordinates
 
 class Game():
-    def __init__(self, border) -> None:
-        self.border = border
+    # def __init__(self, border) -> None:
+    #     self.border = border
 
     def start(self):
         # Game has two list of pieces.
@@ -16,8 +15,7 @@ class Game():
         start_positions = self.starting_positions(is_black)
         pieces = []
         for pos in start_positions:
-            coords = board_coordinates(pos[1], pos[0], self.border)
-            pieces.append(Piece(self.piece_name(is_black), coords))
+            pieces.append(Piece(self.piece_name(is_black), pos))
         return pieces
     
     def piece_name(self, is_black):
@@ -43,3 +41,11 @@ class Game():
                         positions.append((9 - row, 9 - column))
         return positions
         
+
+    # Returns the list of possible next moves for a given piece.
+    def possible_moves(self, piece):
+        # is it king?
+        moves = []
+        # TODO.
+        return moves
+    

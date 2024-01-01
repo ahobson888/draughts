@@ -4,7 +4,7 @@ import pygame
 def test_starting_positions():
 
 
-    target = Game(50)
+    target = Game()
 
     result = target.starting_positions(True)
     expected = [(1, 1),(1, 3),(1, 5),(1, 7),(2, 2),(2, 4),(2, 6),(2, 8),(3, 1),(3, 3),(3, 5),(3, 7)]
@@ -23,7 +23,7 @@ def test_make_pieces():
     pygame.init()
     pygame.display.set_mode((1024, 768))
 
-    target = Game(50)
+    target = Game()
     
     result = target.make_pieces(True)
     # Check that the right number of pieces were made:

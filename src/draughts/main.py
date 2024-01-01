@@ -9,18 +9,17 @@ HEIGHT = 900
 def draw():
     screen.clear()
     screen.fill("dark orange")
-    border = SQUARE_SIZE/2
-    draw_board(border)
-    game = Game(border)
+    draw_board()
+    game = Game()
     start(game)
     return
 
 # Draws the draughts board.
-def draw_board(border):
+def draw_board():
     for h in range(1, 9):
         for v in range(1, 9):
             colour = square_colour(h, v)
-            draw_square(board_coordinates(h, v, border), colour)
+            draw_square(board_coordinates(h, v), colour)
     return 
 
 # Draws a square at the centre coordinates.
