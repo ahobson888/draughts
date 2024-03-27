@@ -1,5 +1,5 @@
 from pgzero.builtins import Actor
-from draughts.board import board_coordinates
+from draughts.board import board_coordinates, diagonals
 from draughts.board import SQUARE_SIZE
 
 class Piece(Actor):
@@ -26,9 +26,13 @@ class Piece(Actor):
         else:
             return False
         
-    # Returns the list of (one, two or four) diagonal squares that a 
+    # Returns the set of (one, two or four) diagonal squares that a 
     # piece could move to if there are no other pieces nearby.
     def diagonal_moves(self):
-        moves = []
-        # TODO
-        return moves
+        # Get *all* the diagonal squares.
+        moves = diagonals(self.position)
+        if self.is_king:
+            return moves
+        if self.is_black():
+            return {(x, y) for (x, y) in moves if y > self.position[1]}
+        return {(x, y) for (x, y) in moves if y <  self.position[1]}

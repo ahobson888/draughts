@@ -20,7 +20,7 @@ def test_make_pieces():
     # Initialise pygame, to avoid the error:
     # pygame.error: cannot convert without pygame.display initialized
     
-    pygame.init()
+    pygame.init() 
     pygame.display.set_mode((1024, 768))
 
     target = Game()
