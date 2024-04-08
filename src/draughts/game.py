@@ -40,12 +40,27 @@ class Game():
                     else:
                         positions.append((9 - row, 9 - column))
         return positions
-        
+    
 
-    # Returns the list of possible next moves for a given piece.
-    def possible_moves(self, piece):
+    def contains_white_piece(self, square):
+        for piece in self.white_pieces:
+            if piece.position == square:
+                return True
+        return False
+
+
+    def contains_black_piece(self, square):
+        for piece in self.black_pieces:
+            if piece.position == square:
+                return True
+        return False
+
+        
+    # Returns the set of possible next moves for a given piece.
+    def allowed_moves(self, piece):
+        # if piece.is_king:
+            
         # is it king?
-        moves = []
+        moves = {}
         # TODO.
         return moves
-    
