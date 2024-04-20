@@ -38,3 +38,34 @@ def test_make_pieces():
     # Check all of the pieces are white:
     for piece in result:
         assert(not piece.is_black())
+
+
+def test_contains_white_piece():
+
+
+    target = Game()
+
+    assert(not target.contains_white_piece((8, 8)))
+    target.white_pieces = target.make_pieces(False)
+    assert(target.contains_white_piece((8, 8)))
+    assert(not target.contains_white_piece((8, 7)))
+    assert(target.contains_white_piece((7, 7)))
+    assert(not target.contains_white_piece((7, 6)))
+    assert(target.contains_white_piece((6, 6)))
+    assert(not target.contains_white_piece((6, 5)))
+
+
+def test_contains_black_piece():
+
+
+    target = Game()
+
+    assert(not target.contains_black_piece((1, 1)))
+    target.black_pieces = target.make_pieces(True)
+    assert(target.contains_black_piece((1, 1)))
+    assert(not target.contains_black_piece((1, 2)))
+    assert(target.contains_black_piece((2, 2)))
+    assert(not target.contains_black_piece((2, 3)))
+    assert(target.contains_black_piece((3, 3)))
+    assert(not target.contains_black_piece((3, 4)))
+

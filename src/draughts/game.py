@@ -1,16 +1,21 @@
 from draughts.piece import Piece
 
-class Game():
-    # def __init__(self, border) -> None:
-    #     self.border = border
 
+class Game():
+
+
+    def __init__(self):
+        self.black_pieces = []
+        self.white_pieces = []
+
+        
     def start(self):
         # Game has two list of pieces.
         self.black_pieces = self.make_pieces(True)
         self.white_pieces = self.make_pieces(False)
 
-    # make all the pieces. 
-    # returns a list of pieces.
+    # Make all the pieces. 
+    # Returns a list of pieces.
     def make_pieces(self, is_black):
         start_positions = self.starting_positions(is_black)
         pieces = []
@@ -42,6 +47,8 @@ class Game():
         return positions
     
 
+    # Return True if the given square contains and white piece.
+    # Otherwise returns False.
     def contains_white_piece(self, square):
         for piece in self.white_pieces:
             if piece.position == square:
@@ -49,6 +56,8 @@ class Game():
         return False
 
 
+    # Return True if the given square contains and black piece.
+    # Otherwise returns False.
     def contains_black_piece(self, square):
         for piece in self.black_pieces:
             if piece.position == square:
