@@ -1,5 +1,6 @@
 from draughts.game import Game
 import pygame
+import pytest
 
 def test_starting_positions():
 
@@ -54,9 +55,13 @@ def test_contains_white_piece():
     assert(target.contains_white_piece((6, 6)))
     assert(not target.contains_white_piece((6, 5)))
 
+    # Test for invalid square argument.
+    with pytest.raises(ValueError):
+        target.contains_black_piece((3, ))
+    with pytest.raises(ValueError):
+        target.contains_black_piece((3, 4, 5))
 
 def test_contains_black_piece():
-
 
     target = Game()
 

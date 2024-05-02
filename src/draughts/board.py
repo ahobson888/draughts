@@ -9,6 +9,15 @@ def square_colour(horizontal, vertical):
         return "black"
     return "white"
 
+# Checks that the given square is a valid position on the board.
+# Otherwise raises a ValueError.
+def check_valid_square(square):
+    if not isinstance(square, tuple):
+        raise ValueError("Board square must be a tuple.")
+    if len(square) != 2:
+        raise ValueError("Board square must have length 2.")
+
+
 # Returns the (x, y) coordinates of the centre point 
 # of a square on the draughts board, given by its
 # horizontal and vertical position.

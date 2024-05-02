@@ -1,4 +1,5 @@
 from draughts.piece import Piece
+from draughts.board import check_valid_square
 
 
 class Game():
@@ -50,6 +51,7 @@ class Game():
     # Return True if the given square contains and white piece.
     # Otherwise returns False.
     def contains_white_piece(self, square):
+        check_valid_square(square)
         for piece in self.white_pieces:
             if piece.position == square:
                 return True
@@ -59,6 +61,7 @@ class Game():
     # Return True if the given square contains and black piece.
     # Otherwise returns False.
     def contains_black_piece(self, square):
+        check_valid_square(square)
         for piece in self.black_pieces:
             if piece.position == square:
                 return True
