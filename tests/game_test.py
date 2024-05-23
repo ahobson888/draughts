@@ -1,6 +1,9 @@
 from draughts.game import Game
+from draughts.piece import Piece
 import pygame
 import pytest
+
+
 
 def test_starting_positions():
 
@@ -74,3 +77,18 @@ def test_contains_black_piece():
     assert(target.contains_black_piece((3, 3)))
     assert(not target.contains_black_piece((3, 4)))
 
+def test_can_take():
+
+    target = Game()
+
+    black_piece = Piece("black-piece", (4, 4))
+    white_piece = Piece("white-piece", (5, 5))
+    other_piece = Piece("black-piece", (1, 1))
+
+    target.black_pieces = [black_piece, other_piece]
+    target.white_pieces = [white_piece]
+
+
+    assert(target.can_take(black_piece))
+    assert(target.can_take(white_piece))
+    assert(not target.can_take(other_piece))

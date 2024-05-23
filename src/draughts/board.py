@@ -33,6 +33,25 @@ def diagonals(position):
             # Only add diagonals that are on the board.
             x = position[0] + x_offset
             y = position[1] + y_offset
-            if x > 0 and x < 9 and y > 0 and y < 9:
+            if is_valid_square((x, y)):
                 ret.add((x, y))
     return ret
+
+
+def is_valid_square(position):
+    return position[0] > 0 and position[0] < 9 and position[1] > 0 and position[1] < 9
+
+
+# Given a position and a diagonal square next to to the it.
+# This funtion returns the next diagonal in the same direction.
+# Returns None if they no next diagonal
+def next_diagonal(position, diagonal):
+    if not diagonal in diagonals(position):
+        raise ValueError()
+    move = (diagonal[0] - position[0], diagonal[1] - position[1])
+    ret = (diagonal[0] + move[0], diagonal[1] + move[1])
+
+    # If the square is off the board, return None.
+    if is_valid_square(ret):
+        return ret
+    return None
