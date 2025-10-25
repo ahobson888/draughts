@@ -30,6 +30,17 @@ class Game():
             return "black-piece"
         return "white-piece"
 
+    # Gets the piece in the given position. Returns None if there is no piece in that position.
+    def get_piece(self, position):
+        for piece in self.black_pieces:
+            if piece.position == position:
+                return piece
+        for piece in self.white_pieces:
+            if piece.position == position:
+                return piece
+        return None
+
+
     def draw_pieces(self):
         for piece in self.black_pieces:
             piece.draw()
@@ -49,7 +60,7 @@ class Game():
         return positions
     
 
-    # Return True if the given square contains and white piece.
+    # Return True if the given square contains a white piece.
     # Otherwise returns False.
     def contains_white_piece(self, square):
         check_valid_square(square)
@@ -59,7 +70,7 @@ class Game():
         return False
 
 
-    # Return True if the given square contains and black piece.
+    # Return True if the given square contains a black piece.
     # Otherwise returns False.
     def contains_black_piece(self, square):
         check_valid_square(square)
@@ -68,17 +79,36 @@ class Game():
                 return True
         return False
     
-
+    
     def contains_piece(self, square):
         if square == None:
             return False
         return self.contains_black_piece(square) or self.contains_white_piece(square)
+    
+
+    # Returns True if the given square contains a piece of the same colour as the given piece.
+    # Otherwise returns False. 
+    def contains_same_colour_piece(self, square, piece):
+        if piece.is_black():
+            return self.contains_black_piece(square)
+        else:
+            return self.contains_white_piece(square)
 
 
+    # Returns True if the given square contains a piece of the opposite colour as the given piece.
+    # Otherwise returns False. 
+    def contains_opposite_colour_piece(self, square, piece):
+        if piece.is_black():
+            return self.contains_white_piece(square)
+        else:
+            return self.contains_black_piece(square)
 
-    # Returns True if the piece can take.
-    # Returns False if it can't take.e):
-    def can_take(self, piece):
+
+    # Returns a list of possible taking moves (where they are) for the given piece 
+    def allowed_takes(self, piece):
+
+        Takes = list()
+
         diagonals = piece.diagonal_moves()
 
         # Loop over each of the possible diagonals, and for each one
@@ -87,14 +117,14 @@ class Game():
             # Check if there is a piece of the opposite colour on this diagonal.
             if piece.is_black():
                 # Chech if there is any piece on the next diaginal square.
-                # If there isn't the piece can take return True
+                # If there isn't the piece can take return Truex
                 if self.contains_white_piece(diagonal):
+                    # Chech if there is any piece on the next diaginal square.
+                    # If there isn't the piece can take return True 
                     if self.contains_piece(next_diagonal(piece.position, diagonal)):
                         return False
                     else:
                         return True
-                    # Chech if there is any piece on the next diaginal square.
-                    # If there isn't the piece can take return True
                 else: 
                     continue
             else:
@@ -108,6 +138,84 @@ class Game():
                     
         # if no piece was found take can be taken, return False
         return False
+        
+
+
+    # Returns True if the piece can take.
+    # Returns False if it can't take.
+    def can_take(self, piece):
+        diagonals = piece.diagonal_moves()
+
+        print("CAN TAKE FUNCTION")
+
+        # Loop over each of the possible diagonals, and for each one
+        # check whether there is a piece that can be taken.
+        for diagonal in diagonals:
+            # Check if there is a piece of the opposite colour on this diagonal.
+
+
+            # testing:
+            print("here")
+            print(piece.position)
+            print(piece.is_black())
+            print(diagonal)
+            print(self.contains_opposite_colour_piece(diagonal, piece))
+            print("black pieces:")
+            for p in self.black_pieces:
+                print(p.position)
+            print("end of black pieces")
+
+            if self.contains_opposite_colour_piece(diagonal, piece):
+                nxt_diagonal = next_diagonal(piece.position, diagonal)
+                # Chech if there is any piece on the next diaginal square.
+                # If there isn't, the piece can take so return True.
+                # If there is no next diagonal square, or it contains another piece, return False.
+
+
+
+                if nxt_diagonal is None or self.contains_piece(nxt_diagonal):
+                    return False
+                else:
+                    return True
+            else: 
+                continue
+        # if no piece was found take can be taken, return False
+        return False
+
+        # diagonals = piece.diagonal_moves()
+
+        # # Loop over each of the possible diagonals, and for each one
+        # # check whether there is a piece that can be taken.
+        # for diagonal in diagonals:
+        #     # Check if there is a piece of the opposite colour on this diagonal.
+        #     if piece.is_black():
+        #         # Chech if there is any piece on the next diaginal square.
+        #         # If there isn't the piece can take return True
+        #         if self.contains_white_piece(diagonal):
+        #             nxt_diagonal = next_diagonal(piece.position, diagonal)
+        #             # Chech if there is any piece on the next diaginal square.
+        #             # If there isn't the piece can take return True
+        #             # If there is no next diagonal square, or, it contains another piece, return False.
+        #             if nxt_diagonal is None or self.contains_piece(nxt_diagonal):
+        #                 return False
+        #             else:
+        #                 return True
+        #         else: 
+        #             continue
+        #     else:
+        #         # Chech if there is any piece on the next diaginal square.
+        #         # If there isn't the piece can take return True
+        #         if self.contains_black_piece(diagonal):
+        #             nxt_diagonal = next_diagonal(piece.position, diagonal)
+        #             # If there is no next diagonal square, or, it contains another piece, return False.
+        #             if nxt_diagonal is None or self.contains_piece(nxt_diagonal):
+        #                 return False
+        #             else:
+        #                 return True
+                    
+        # # if no piece was found take can be taken, return False
+        # return False
+
 
 
     # Returns the set of possible next moves for a given piece.
@@ -117,15 +225,18 @@ class Game():
         # First get all the potential moves to an adjacent diagonal square.
         diagonals = piece.diagonal_moves()
 
+
         # For each potential move:
         for diagonal in diagonals:
            # If a piece of the same colour is on that square, it's not a valid move.
-            if piece.is_black():
-                if self.contains_black_piece(diagonal):
-                    continue
-                if self.contains_white_piece(diagonal):
-                    # TODO: need to check if the diagonal square beyond the white piece is empty. 
-                    continue
+            if self.contains_same_colour_piece(diagonal, piece):
+                continue
+            # If a piece of the opposite colour is on that square, we might be able to take it
+            if self.contains_opposite_colour_piece(diagonal, piece):
+                continue
+                # TODO check if the piece can take.
+                
+            
 
 
         # If there are any taking moves, only those moves are allowed:

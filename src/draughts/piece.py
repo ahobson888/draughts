@@ -2,6 +2,7 @@ from pgzero.builtins import Actor
 from draughts.board import board_coordinates, diagonals
 from draughts.board import SQUARE_SIZE
 
+
 class Piece(Actor):
     def __init__(self, name, pos):
         print(f"New {name} at {pos}")
@@ -25,6 +26,8 @@ class Piece(Actor):
             return True
         else:
             return False
+    
+
         
     # Returns the set of (one, two or four) diagonal squares that a 
     # piece could move to if there are no other pieces nearby.
