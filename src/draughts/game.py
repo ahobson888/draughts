@@ -102,85 +102,127 @@ class Game():
             return self.contains_white_piece(square)
         else:
             return self.contains_black_piece(square)
+        
 
 
-    # Returns a list of possible taking moves (where they are) for the given piece 
-    def allowed_takes(self, piece):
+    def possible_moves(self, piece):
+        takes = self.possible_taking_moves(piece)
+        if len(takes) > 0:
+            return takes
+        return self.possible_nontaking_moves(piece)
+    
 
-        Takes = list()
-
+    def possible_nontaking_moves(self, piece):
+        print(f"piece at: {piece.position}")
         diagonals = piece.diagonal_moves()
-
-        # Loop over each of the possible diagonals, and for each one
-        # check whether there is a piece that can be taken.
+        moves = set()
         for diagonal in diagonals:
-            # Check if there is a piece of the opposite colour on this diagonal.
-            if piece.is_black():
-                # Chech if there is any piece on the next diaginal square.
-                # If there isn't the piece can take return Truex
-                if self.contains_white_piece(diagonal):
-                    # Chech if there is any piece on the next diaginal square.
-                    # If there isn't the piece can take return True 
-                    if self.contains_piece(next_diagonal(piece.position, diagonal)):
-                        return False
-                    else:
-                        return True
-                else: 
+            print(f"diagonal: {diagonal}")
+            if not self.contains_piece(diagonal):
+                moves.add((piece.position, diagonal))
+        return moves
+    
+
+# daddy pseudo code
+    def possible_taking_moves(self, piece, current_move=[]):
+        if len(current_move) == 0:
+            current_move.append(piece.position)
+        moves = {}
+        for diagonal in self.diagonals(piece):
+            move = current_move.copy()
+            if self.contains_opposite_colour_piece(piece, diagonal):
+                nxt_diagonal = next_diagonal(piece, diagonal)
+                if self.contains_piece(nxt_diagonal):
                     continue
-            else:
-                # Chech if there is any piece on the next diaginal square.
-                # If there isn't the piece can take return True
-                if self.contains_black_piece(diagonal):
-                    if self.contains_piece(next_diagonal(piece.position, diagonal)):
-                        return False
-                    else:
-                        return True
+                # A capture is possible, so update the `move`.
+                move.append(nxt_diagonal)
+                # Check whether further captures are possible by constructing
+                # a new piece but *without* addding it to the game.
+                extra_taking_moves = self.possible_taking_moves(Piece("...", position=nxt_diagonal), current_move=move)
+                if len(extra_taking_moves) > 0:
+                    moves.union(extra_taking_moves)
+                else:
+                    moves.add(move)
+        return moves
+
+
+    # # Returns a list of possible taking moves (where they are) for the given piece 
+    # def allowed_takes(self, piece):
+
+    #     Takes = list()
+
+    #     diagonals = piece.diagonal_moves()
+
+    #     # Loop over each of the possible diagonals, and for each one
+    #     # check whether there is a piece that can be taken.
+    #     for diagonal in diagonals:
+    #         # Check if there is a piece of the opposite colour on this diagonal.
+    #         if piece.is_black():
+    #             # Chech if there is any piece on the next diaginal square.
+    #             # If there isn't the piece can take return Truex
+    #             if self.contains_white_piece(diagonal):
+    #                 # Chech if there is any piece on the next diaginal square.
+    #                 # If there isn't the piece can take return True 
+    #                 if self.contains_piece(next_diagonal(piece.position, diagonal)):
+    #                     return False
+    #                 else:
+    #                     return True
+    #             else: 
+    #                 continue
+    #         else:
+    #             # Chech if there is any piece on the next diaginal square.
+    #             # If there isn't the piece can take return True
+    #             if self.contains_black_piece(diagonal):
+    #                 if self.contains_piece(next_diagonal(piece.position, diagonal)):
+    #                     return False
+    #                 else:
+    #                     return True
                     
-        # if no piece was found take can be taken, return False
-        return False
+    #     # if no piece was found take can be taken, return False
+    #     return False
         
 
 
     # Returns True if the piece can take.
     # Returns False if it can't take.
-    def can_take(self, piece):
-        diagonals = piece.diagonal_moves()
+    # def can_take(self, piece):
+    #     diagonals = piece.diagonal_moves()
 
-        print("CAN TAKE FUNCTION")
+    #     print("CAN TAKE FUNCTION")
 
-        # Loop over each of the possible diagonals, and for each one
-        # check whether there is a piece that can be taken.
-        for diagonal in diagonals:
-            # Check if there is a piece of the opposite colour on this diagonal.
-
-
-            # testing:
-            print("here")
-            print(piece.position)
-            print(piece.is_black())
-            print(diagonal)
-            print(self.contains_opposite_colour_piece(diagonal, piece))
-            print("black pieces:")
-            for p in self.black_pieces:
-                print(p.position)
-            print("end of black pieces")
-
-            if self.contains_opposite_colour_piece(diagonal, piece):
-                nxt_diagonal = next_diagonal(piece.position, diagonal)
-                # Chech if there is any piece on the next diaginal square.
-                # If there isn't, the piece can take so return True.
-                # If there is no next diagonal square, or it contains another piece, return False.
+    #     # Loop over each of the possible diagonals, and for each one
+    #     # check whether there is a piece that can be taken.
+    #     for diagonal in diagonals:
+    #         # Check if there is a piece of the opposite colour on this diagonal.
 
 
+    #         # testing:
+    #         print("here")
+    #         print(piece.position)
+    #         print(piece.is_black())
+    #         print(diagonal)
+    #         print(self.contains_opposite_colour_piece(diagonal, piece))
+    #         print("black pieces:")
+    #         for p in self.black_pieces:
+    #             print(p.position)
+    #         print("end of black pieces")
 
-                if nxt_diagonal is None or self.contains_piece(nxt_diagonal):
-                    return False
-                else:
-                    return True
-            else: 
-                continue
-        # if no piece was found take can be taken, return False
-        return False
+    #         if self.contains_opposite_colour_piece(diagonal, piece):
+    #             nxt_diagonal = next_diagonal(piece.position, diagonal)
+    #             # Chech if there is any piece on the next diaginal square.
+    #             # If there isn't, the piece can take so return True.
+    #             # If there is no next diagonal square, or it contains another piece, return False.
+
+
+
+    #             if nxt_diagonal is None or self.contains_piece(nxt_diagonal):
+    #                 return False
+    #             else:
+    #                 return True
+    #         else: 
+    #             continue
+    #     # if no piece was found take can be taken, return False
+    #     return False
 
         # diagonals = piece.diagonal_moves()
 
