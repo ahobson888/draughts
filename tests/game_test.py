@@ -7,15 +7,16 @@ import pytest
 
 def test_starting_positions():
 
-
     target = Game()
 
-    result = target.starting_positions(True)
-    expected = [(1, 1),(1, 3),(1, 5),(1, 7),(2, 2),(2, 4),(2, 6),(2, 8),(3, 1),(3, 3),(3, 5),(3, 7)]
+    is_black = True
+    result = target.starting_positions(is_black)
+    expected = [(1, 1),(3, 1),(5, 1),(7, 1),(2, 2),(4, 2),(6, 2),(8, 2),(1, 3),(3, 3),(5, 3),(7, 3)]
     assert(result == expected)
 
-    result = target.starting_positions(False)
-    expected = [(8, 8),(8, 6),(8, 4),(8, 2),(7, 7),(7, 5),(7, 3),(7, 1),(6, 8),(6, 6),(6, 4),(6, 2)]
+    is_black = False
+    result = target.starting_positions(is_black)
+    expected = [(8, 8),(6, 8),(4, 8),(2, 8),(7, 7),(5, 7),(3, 7),(1, 7),(8, 6),(6, 6),(4, 6),(2, 6)]
     assert(result == expected)
 
 
@@ -128,23 +129,23 @@ def test_allowed_moves_starting_positions():
     # Make the pieces in their starting positions.
     target.start()
 
-    piece = target.get_piece((3, 5))
-    assert(target.allowed_moves(piece) == {(4, 4), (4, 6)})
+    piece = target.get_piece((5, 3))
+    assert(target.allowed_moves(piece) == {(4, 4), (6, 4)})
 
-    piece = target.get_piece((6, 4))
-    assert(target.allowed_moves(piece) == {(5, 3), (5, 5)})
+    piece = target.get_piece((4, 6))
+    assert(target.allowed_moves(piece) == {(3, 5), (5, 5)})
 
-    piece = target.get_piece((7, 5))
+    piece = target.get_piece((5, 7))
     assert(target.allowed_moves(piece) == {})
 
-    piece = target.get_piece((6, 8))
-    assert(target.allowed_moves(piece) == {(5, 7)})
+    piece = target.get_piece((8, 6))
+    assert(target.allowed_moves(piece) == {(7, 5)})
 
     piece = target.get_piece((1, 1))
     assert(target.allowed_moves(piece) == {})
 
-    piece = target.get_piece((3, 1))
-    assert(target.allowed_moves(piece) == {(4, 2)})
+    piece = target.get_piece((1, 3))
+    assert(target.allowed_moves(piece) == {(2, 4)})
 
     # TODO: Add tests about if the piece or king can take. 
 
@@ -154,23 +155,23 @@ def test_allowed_moves_kings():
 
     piece = Piece("white-piece", (4, 4))
     piece.is_king = True
-    assert(target.allowed_moves(piece) == {(3, 3), (5, 3), (3, 5), (5, 5)})
+    assert(target.allowed_moves(piece) == {(3, 3), (3, 5), (5, 3), (5, 5)})
 
     piece = Piece("white-piece", (5, 5))
     piece.is_king = True
-    assert(target.allowed_moves(piece) == {(5, 4), (4, 5), (6, 6)})
+    assert(target.allowed_moves(piece) == {(4, 5), (5, 4), (6, 6)})
 
     piece = Piece("white-piece", (1, 1))
     piece.is_king = True
     assert(target.allowed_moves(piece) == {(2, 2)})
 
-    piece = Piece("white-piece", (5, 1))
+    piece = Piece("white-piece", (1, 5))
     piece.is_king = True
-    assert(target.allowed_moves(piece) == {(6, 2), (4, 2)})
+    assert(target.allowed_moves(piece) == {(2, 6), (2, 4)})
 
     piece = Piece("white-piece", (7, 7))
     piece.is_king = True
-    assert(target.allowed_moves(piece) == {(8, 8), (8, 6), (6, 8), (6, 6)})
+    assert(target.allowed_moves(piece) == {(8, 8), (6, 8), (8, 6), (6, 6)})
 
     piece = Piece("white-piece", (8, 8))
     piece.is_king = True
@@ -180,35 +181,35 @@ def test_allowed_moves_kings():
     piece.is_king = True
     assert(target.allowed_moves(piece) == {(3, 3), (1, 3), (3, 1)})
 
-    piece = Piece("white-piece", (3, 1))
-    piece.is_king = True
-    assert(target.allowed_moves(piece) == {(4, 2)})
-
     piece = Piece("white-piece", (1, 3))
     piece.is_king = True
     assert(target.allowed_moves(piece) == {(2, 4)})
+
+    piece = Piece("white-piece", (3, 1))
+    piece.is_king = True
+    assert(target.allowed_moves(piece) == {(4, 2)})
 
     target = Game()
 
     piece = Piece("black-piece", (4, 4))
     piece.is_king = True
-    assert(target.allowed_moves(piece) == {(3, 3), (5, 3), (3, 5), (5, 5)})
+    assert(target.allowed_moves(piece) == {(3, 3), (3, 5), (5, 3), (5, 5)})
 
     piece = Piece("black-piece", (5, 5))
     piece.is_king = True
-    assert(target.allowed_moves(piece) == {(5, 4), (4, 5), (6, 6)})
+    assert(target.allowed_moves(piece) == {(4, 5), (5, 4), (6, 6)})
 
     piece = Piece("black-piece", (1, 1))
     piece.is_king = True
     assert(target.allowed_moves(piece) == {(2, 2)})
 
-    piece = Piece("black-piece", (5, 1))
+    piece = Piece("black-piece", (1, 5))
     piece.is_king = True
-    assert(target.allowed_moves(piece) == {(6, 2), (4, 2)})
+    assert(target.allowed_moves(piece) == {(2, 6), (2, 4)})
 
     piece = Piece("black-piece", (7, 7))
     piece.is_king = True
-    assert(target.allowed_moves(piece) == {(8, 8), (8, 6), (6, 8), (6, 6)})
+    assert(target.allowed_moves(piece) == {(8, 8), (6, 8), (8, 6), (6, 6)})
 
     piece = Piece("black-piece", (8, 8))
     piece.is_king = True
@@ -218,11 +219,11 @@ def test_allowed_moves_kings():
     piece.is_king = True
     assert(target.allowed_moves(piece) == {(3, 3), (1, 3), (3, 1)})
 
-    piece = Piece("black-piece", (3, 1))
-    piece.is_king = True
-    assert(target.allowed_moves(piece) == {(4, 2)})
-
     piece = Piece("black-piece", (1, 3))
     piece.is_king = True
     assert(target.allowed_moves(piece) == {(2, 4)})
+
+    piece = Piece("black-piece", (3, 1))
+    piece.is_king = True
+    assert(target.allowed_moves(piece) == {(4, 2)})
 

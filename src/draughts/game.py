@@ -54,9 +54,9 @@ class Game():
             for column in range(1, 9):
                 if ((row + column) % 2) == 0:
                     if is_black:
-                        positions.append((row, column))
+                        positions.append((column, row))
                     else:
-                        positions.append((9 - row, 9 - column))
+                        positions.append((9 - column, 9 - row))
         return positions
     
 
