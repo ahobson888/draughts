@@ -12,7 +12,7 @@ class Piece(Actor):
         # Use the is_king attibute to keep track of whether this piece is a king.
         self.is_king = False
         # Compute the pixel coordinates from the board square:
-        coords = board_coordinates(pos[1], pos[0])
+        coords = board_coordinates(pos[0], pos[1])
         super().__init__(name, coords, width = 0.9 * SQUARE_SIZE, height = 0.9 * SQUARE_SIZE)
         
 
