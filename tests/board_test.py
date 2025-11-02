@@ -62,10 +62,14 @@ def test_square_colour():
 
 
 
+def test_diagonals():
+
+    assert(diagonals((1, 1)) == {(2, 2)})
+    assert(diagonals((5, 5)) == {(4, 4) ,(4, 6), (6, 4), (6, 6)})
+    assert(diagonals((8, 6)) == {(7, 7), (7, 5)})
+
 def test_next_diagonal():
 
-    # The test will not fall ,because next_diagonal has a yellow line under it 
-    # It might fall because the funtion is not working.
     result = next_diagonal((1, 1), (2, 2))
     assert(result == (3, 3))
 

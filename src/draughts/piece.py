@@ -16,6 +16,10 @@ class Piece(Actor):
         super().__init__(name, coords, width = 0.9 * SQUARE_SIZE, height = 0.9 * SQUARE_SIZE)
         
 
+    def __str__(self):
+        s = f"{self.name()} at {self.position}"
+        return s
+
     def name(self):
         return self._image_name
 

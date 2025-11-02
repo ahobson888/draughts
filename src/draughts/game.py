@@ -124,23 +124,29 @@ class Game():
     
 
 # daddy pseudo code
-    def possible_taking_moves(self, piece, current_move=[]):
+    def possible_taking_moves(self, piece, current_move=tuple()):
         if len(current_move) == 0:
-            current_move.append(piece.position)
-        moves = {}
-        for diagonal in self.diagonals(piece):
-            move = current_move.copy()
-            if self.contains_opposite_colour_piece(piece, diagonal):
-                nxt_diagonal = next_diagonal(piece, diagonal)
+            # Trailing comma to create a tuple containing one tuple:
+            current_move = (piece.position, )
+        diagonals = piece.diagonal_moves()
+        moves = set()
+        for diagonal in diagonals:
+            move = current_move
+            if self.contains_opposite_colour_piece(diagonal, piece):
+                nxt_diagonal = next_diagonal(piece.position, diagonal)
                 if self.contains_piece(nxt_diagonal):
                     continue
                 # A capture is possible, so update the `move`.
-                move.append(nxt_diagonal)
+                # Append to a list and then convert back to a tuple.
+                l = list(move)
+                l.append(nxt_diagonal)
+                move = tuple(l)
                 # Check whether further captures are possible by constructing
                 # a new piece but *without* addding it to the game.
-                extra_taking_moves = self.possible_taking_moves(Piece("...", position=nxt_diagonal), current_move=move)
+                extra_taking_moves = self.possible_taking_moves(Piece(piece.name(), pos=nxt_diagonal), current_move=move)
+
                 if len(extra_taking_moves) > 0:
-                    moves.union(extra_taking_moves)
+                    moves = moves.union(extra_taking_moves)
                 else:
                     moves.add(move)
         return moves

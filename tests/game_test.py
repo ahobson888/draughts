@@ -139,69 +139,108 @@ def test_possible_nontaking_moves():
     assert(target.possible_nontaking_moves(piece) == {((4, 6),(3, 5)), ((4, 6),(5, 5))})
 
     piece = target.get_piece((5, 7))
-    assert(target.possible_nontaking_moves(piece) == {})
+    assert(target.possible_nontaking_moves(piece) == set())
 
     piece = target.get_piece((8, 6))
     assert(target.possible_nontaking_moves(piece) == {((8, 6),(7, 5))})
 
     piece = target.get_piece((1, 1))
-    assert(target.possible_nontaking_moves(piece) == {})
+    assert(target.possible_nontaking_moves(piece) == set())
 
     piece = target.get_piece((1, 3))
     assert(target.possible_nontaking_moves(piece) == {((1, 3),(2, 4))})
 
     # TODO: Add tests about if the piece or king can take. 
 
-def test_allowed_moves_kings():
-    piece = Piece("white-piece", (4, 4))
-    piece.is_king = True
-    assert(target.allowed_moves(piece) == {(3, 3), (3, 5), (5, 3), (5, 5)})
-
-    piece = Piece("white-piece", (5, 5))
-    piece.is_king = True
-    assert(target.allowed_moves(piece) == {(4, 5), (5, 4), (6, 6)}) 
-
-    piece = Piece("white-piece", (1, 5))
-    piece.is_king = True
-    assert(target.allowed_moves(piece) == {(2, 6), (2, 4)})
-
-    piece = Piece("white-piece", (7, 7))
-    piece.is_king = True
-    assert(target.allowed_moves(piece) == {(8, 8), (6, 8), (8, 6), (6, 6)})   
-
-    piece = Piece("white-piece", (1, 3))
-    piece.is_king = True
-    assert(target.allowed_moves(piece) == {(2, 4)})
-
-    piece = Piece("white-piece", (3, 1))
-    piece.is_king = True
-    assert(target.allowed_moves(piece) == {(4, 2)})
+def test_possible_taking_moves():
 
     target = Game()
 
-    piece = Piece("black-piece", (4, 4))
-    piece.is_king = True
-    assert(target.allowed_moves(piece) == {(3, 3), (3, 5), (5, 3), (5, 5)})
 
-    piece = Piece("black-piece", (5, 5))
-    piece.is_king = True
-    assert(target.allowed_moves(piece) == {(4, 5), (5, 4), (6, 6)})
+    black44 = Piece("black-piece", (4, 4))
+    white55 = Piece("white-piece", (5, 5))
+    black11 = Piece("black-piece", (1, 1))
+    
 
-    piece = Piece("black-piece", (1, 5))
-    piece.is_king = True
-    assert(target.allowed_moves(piece) == {(2, 6), (2, 4)})
+    target.black_pieces = [black44, black11]
+    target.white_pieces = [white55]
 
-    piece = Piece("black-piece", (7, 7))
-    piece.is_king = True
-    assert(target.allowed_moves(piece) == {(8, 8), (6, 8), (8, 6), (6, 6)})
+    assert(target.possible_taking_moves(black11) == set())
+    assert(target.possible_taking_moves(black44) == {((4, 4), (6, 6))})
+    assert(target.possible_taking_moves(white55) == {((5, 5), (3, 3))})
 
-    piece = Piece("black-piece", (1, 3))
-    piece.is_king = True
-    assert(target.allowed_moves(piece) == {(2, 4)})
+    white35 = Piece("white-piece", (3, 5))
+    target.white_pieces.append(white35)
 
-    piece = Piece("black-piece", (3, 1))
-    piece.is_king = True
-    assert(target.allowed_moves(piece) == {(4, 2)})
+    assert(target.possible_taking_moves(black44) == {((4, 4), (6, 6)), ((4, 4), (2, 6))})
+
+    white77 = Piece("white-piece", (7, 7))
+    target.white_pieces.append(white77)
+
+    assert(target.possible_taking_moves(black44) == {((4, 4), (6, 6), (8, 8)), ((4, 4), (2, 6))})
+
+    white88 = Piece("white-piece", (8, 8))
+    target.white_pieces.append(white88)
+
+    assert(target.possible_taking_moves(black44) == {((4, 4), (6, 6)), ((4, 4), (2, 6))})
+
+
+
+
+
+# def test_allowed_moves_kings():
+
+#     target = Game()
+
+#     piece = Piece("white-piece", (4, 4))
+#     piece.is_king = True
+#     assert(target.allowed_moves(piece) == {(3, 3), (3, 5), (5, 3), (5, 5)})
+
+#     piece = Piece("white-piece", (5, 5))
+#     piece.is_king = True
+#     assert(target.allowed_moves(piece) == {(4, 5), (5, 4), (6, 6)}) 
+
+#     piece = Piece("white-piece", (1, 5))
+#     piece.is_king = True
+#     assert(target.allowed_moves(piece) == {(2, 6), (2, 4)})
+
+#     piece = Piece("white-piece", (7, 7))
+#     piece.is_king = True
+#     assert(target.allowed_moves(piece) == {(8, 8), (6, 8), (8, 6), (6, 6)})   
+
+#     piece = Piece("white-piece", (1, 3))
+#     piece.is_king = True
+#     assert(target.allowed_moves(piece) == {(2, 4)})
+
+#     piece = Piece("white-piece", (3, 1))
+#     piece.is_king = True
+#     assert(target.allowed_moves(piece) == {(4, 2)})
+
+#     target = Game()
+
+#     piece = Piece("black-piece", (4, 4))
+#     piece.is_king = True
+#     assert(target.allowed_moves(piece) == {(3, 3), (3, 5), (5, 3), (5, 5)})
+
+#     piece = Piece("black-piece", (5, 5))
+#     piece.is_king = True
+#     assert(target.allowed_moves(piece) == {(4, 5), (5, 4), (6, 6)})
+
+#     piece = Piece("black-piece", (1, 5))
+#     piece.is_king = True
+#     assert(target.allowed_moves(piece) == {(2, 6), (2, 4)})
+
+#     piece = Piece("black-piece", (7, 7))
+#     piece.is_king = True
+#     assert(target.allowed_moves(piece) == {(8, 8), (6, 8), (8, 6), (6, 6)})
+
+#     piece = Piece("black-piece", (1, 3))
+#     piece.is_king = True
+#     assert(target.allowed_moves(piece) == {(2, 4)})
+
+#     piece = Piece("black-piece", (3, 1))
+#     piece.is_king = True
+#     assert(target.allowed_moves(piece) == {(4, 2)})
 
 
 # def test_allowed_moves_starting_positions():
