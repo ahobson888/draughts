@@ -1,18 +1,11 @@
 import pgzrun
+import time
 from draughts.board import square_colour, board_coordinates, SQUARE_SIZE
 from draughts.game import Game
 
 # Canvas size:
 WIDTH = 900
 HEIGHT = 900
-
-def draw():
-    screen.clear()
-    screen.fill("dark orange")
-    draw_board()
-    game = Game()
-    start(game)
-    return
 
 # Draws the draughts board.
 def draw_board():
@@ -33,8 +26,21 @@ def draw_square(centre, colour):
     centre[0]+(SQUARE_SIZE/2)
     centre[1]+(SQUARE_SIZE/2)
 
-def start(game):
-    game.start()
+game = Game()
+game.start()
+is_blacks_move = True
+
+def draw():
+    screen.clear()
+    screen.fill("dark orange")
+    draw_board()
     game.draw_pieces()
+    return
+
+def update():
+    global is_blacks_move
+    time.sleep(1)
+    game.play_move(is_blacks_move)
+    is_blacks_move = not is_blacks_move
 
 pgzrun.go()

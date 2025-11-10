@@ -185,9 +185,6 @@ def test_possible_taking_moves():
     assert(target.possible_taking_moves(black44) == {((4, 4), (6, 6)), ((4, 4), (2, 6))})
 
 
-
-
-
 # def test_allowed_moves_kings():
 
 #     target = Game()

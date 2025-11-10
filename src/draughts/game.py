@@ -1,5 +1,7 @@
 from draughts.piece import Piece
 from draughts.board import check_valid_square, next_diagonal
+import random
+from sys import exit
 
 
 
@@ -16,7 +18,100 @@ class Game():
         self.black_pieces = self.make_pieces(True)
         self.white_pieces = self.make_pieces(False)
 
-    # Make all the pieces. 
+
+    # Plays a move and stops it if the game has finished
+    # and True if the game has finished.
+    def play_move(self, is_black):
+        if is_black:
+            move = self.choose_move(self.black_pieces)
+        else:
+            move = self.choose_move(self.white_pieces)
+        # If no move is possible, the game is drawn.
+        if move is None:
+            print("It was a draw.") 
+            exit()
+        # Move the piece and check whether the game is finished.
+        self.move_piece(move)
+        if len(self.black_pieces) == 0:
+            print("The winner is white!")
+            exit()
+        if len(self.white_pieces) == 0:
+            print("The winner is black!")
+            exit()
+        
+
+    def move_piece(self, move):
+        # First get the piece that is going to move.
+        piece = move[0]
+        squares = move[1]
+        if piece is None:
+            print("Error invalid move, no piece at starting position")
+            exit()
+        # Change the position of the piece to the next element then see if it needs to move again.
+        piece.change_position(squares[1])
+        # If a taking move remove the taken piece.
+        pos0 = squares[0]
+        pos1 = squares[1]
+        diff = tuple(abs(x - y) for x, y in  zip(pos0, pos1))
+        if diff == (2, 2):
+            taken_piece = self.get_piece(self.taken_position(squares[:2]))
+            if taken_piece is None:
+                print("There is no piece to take.")
+                exit()
+            # Remove taken piece from Game.
+            self.remove_piece(taken_piece)
+        # If the piece has reach the end of the board, turn it into a king 
+        if piece.is_on_king_rank():
+            piece.is_king = True
+        # If there are more jumps in this move, called this method recursively.  
+        if len(squares) > 2:
+            self.move_piece((piece, squares[1:]))
+
+    def taken_position(self, jump):
+        print(f"jump: {jump}")
+        col0 = jump[0][0]
+        col1 = jump[1][0]
+        row0 = jump[0][1]
+        row1 = jump[1][1]
+        if col1 > col0:
+            col = col0 + 1
+        else:
+            col = col0 - 1
+        if row1 > row0:
+            row = row0 + 1
+        else:
+            row = row0 - 1
+        return (col, row)
+    
+    def remove_piece(self, piece):
+        if piece.is_black():
+            self.black_pieces.remove(piece)
+        else:
+            self.white_pieces.remove(piece)
+
+    # Returns a piece and a possible move in a tuple starting with the taking moves then the nontaking moves.
+    def choose_move(self, pieces):
+        moves = list()
+        for piece in pieces:
+            taking_moves = self.possible_taking_moves(piece)
+            if len(taking_moves) == 0:
+                continue
+            moves.append((piece, random.choice(list(taking_moves))))
+        if len(moves) > 0:
+            # TODO randomly select a piece and a move in the right way
+            return random.choice(list(moves))
+        for piece in pieces:
+            nontaking_moves = self.possible_nontaking_moves(piece)
+            if len(nontaking_moves) == 0:
+                continue
+            moves.append((piece, random.choice(list(nontaking_moves))))
+        if len(moves) > 0:
+            move = random.choice(list(moves))
+            print("Chosen move")
+            print(move)
+            return move
+        return None
+
     # Returns a list of pieces.
     def make_pieces(self, is_black):
         start_positions = self.starting_positions(is_black)
@@ -104,7 +199,7 @@ class Game():
             return self.contains_black_piece(square)
         
 
-
+    # Returns the set of possible moves for the given piece.
     def possible_moves(self, piece):
         takes = self.possible_taking_moves(piece)
         if len(takes) > 0:
@@ -134,6 +229,8 @@ class Game():
             move = current_move
             if self.contains_opposite_colour_piece(diagonal, piece):
                 nxt_diagonal = next_diagonal(piece.position, diagonal)
+                if nxt_diagonal is None:
+                    continue
                 if self.contains_piece(nxt_diagonal):
                     continue
                 # A capture is possible, so update the `move`.

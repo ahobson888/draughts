@@ -30,6 +30,12 @@ class Piece(Actor):
             return True
         else:
             return False
+        
+    def is_on_king_rank(self):
+        if self.is_black():
+            return self.position[1] == 8
+        else:
+            return self.position[1] == 1
     
 
         
@@ -43,3 +49,9 @@ class Piece(Actor):
         if self.is_black():
             return {(x, y) for (x, y) in moves if y > self.position[1]}
         return {(x, y) for (x, y) in moves if y <  self.position[1]}
+    
+    def change_position(self, new_position):
+        self.position = new_position
+        coords = board_coordinates(new_position[0], new_position[1])
+        self.x = coords[0]
+        self.y = coords[1]
