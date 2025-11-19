@@ -63,6 +63,10 @@ class Game():
         # If the piece has reach the end of the board, turn it into a king 
         if piece.is_on_king_rank():
             piece.is_king = True
+            if piece.is_black():
+               piece.image = "black-king"
+            else:
+                piece.image = "white-king"
         # If there are more jumps in this move, called this method recursively.  
         if len(squares) > 2:
             self.move_piece((piece, squares[1:]))
@@ -208,11 +212,9 @@ class Game():
     
 
     def possible_nontaking_moves(self, piece):
-        print(f"piece at: {piece.position}")
         diagonals = piece.diagonal_moves()
         moves = set()
         for diagonal in diagonals:
-            print(f"diagonal: {diagonal}")
             if not self.contains_piece(diagonal):
                 moves.add((piece.position, diagonal))
         return moves

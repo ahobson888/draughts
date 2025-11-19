@@ -26,7 +26,7 @@ class Piece(Actor):
     # Returns True if the this piece is black
     # Returns False if the this piece is white 
     def is_black(self):
-        if self.name() == "black-piece":
+        if self.name() == "black-piece" or self.name() == "black-king":
             return True
         else:
             return False
