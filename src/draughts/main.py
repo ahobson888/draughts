@@ -2,6 +2,7 @@ import pgzrun
 import time
 from draughts.board import square_colour, board_coordinates, SQUARE_SIZE
 from draughts.game import Game
+from draughts.agents.random_agent import RandomAgent
 
 # Canvas size:
 WIDTH = 900
@@ -27,7 +28,9 @@ def draw_square(centre, colour):
     centre[1]+(SQUARE_SIZE/2)
 
 game = Game()
-game.start()
+black_player = RandomAgent(game, True)
+white_player = RandomAgent(game, False)
+game.start(black_player, white_player)
 is_blacks_move = True
 
 def draw():
@@ -39,7 +42,7 @@ def draw():
 
 def update():
     global is_blacks_move
-    time.sleep(1)
+    time.sleep(0.5)
     game.play_move(is_blacks_move)
     is_blacks_move = not is_blacks_move
 

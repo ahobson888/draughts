@@ -1,6 +1,5 @@
 from draughts.piece import Piece
 from draughts.board import check_valid_square, next_diagonal
-import random
 from sys import exit
 
 
@@ -13,19 +12,21 @@ class Game():
         self.white_pieces = []
 
         
-    def start(self):
+    def start(self, black_player, white_player):
         # Game has two list of pieces.
         self.black_pieces = self.make_pieces(True)
         self.white_pieces = self.make_pieces(False)
+        self.black_player = black_player
+        self.white_player = white_player
 
 
     # Plays a move and stops it if the game has finished
     # and True if the game has finished.
     def play_move(self, is_black):
         if is_black:
-            move = self.choose_move(self.black_pieces)
+            move = self.black_player.choose_move()
         else:
-            move = self.choose_move(self.white_pieces)
+            move = self.white_player.choose_move()
         # If no move is possible, the game is drawn.
         if move is None:
             print("It was a draw.") 
@@ -72,7 +73,6 @@ class Game():
             self.move_piece((piece, squares[1:]))
 
     def taken_position(self, jump):
-        print(f"jump: {jump}")
         col0 = jump[0][0]
         col1 = jump[1][0]
         row0 = jump[0][1]
@@ -93,28 +93,6 @@ class Game():
         else:
             self.white_pieces.remove(piece)
 
-    # Returns a piece and a possible move in a tuple starting with the taking moves then the nontaking moves.
-    def choose_move(self, pieces):
-        moves = list()
-        for piece in pieces:
-            taking_moves = self.possible_taking_moves(piece)
-            if len(taking_moves) == 0:
-                continue
-            moves.append((piece, random.choice(list(taking_moves))))
-        if len(moves) > 0:
-            # TODO randomly select a piece and a move in the right way
-            return random.choice(list(moves))
-        for piece in pieces:
-            nontaking_moves = self.possible_nontaking_moves(piece)
-            if len(nontaking_moves) == 0:
-                continue
-            moves.append((piece, random.choice(list(nontaking_moves))))
-        if len(moves) > 0:
-            move = random.choice(list(moves))
-            print("Chosen move")
-            print(move)
-            return move
-        return None
 
     # Returns a list of pieces.
     def make_pieces(self, is_black):
