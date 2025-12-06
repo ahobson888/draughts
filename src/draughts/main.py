@@ -3,6 +3,7 @@ import time
 from draughts.board import square_colour, board_coordinates, SQUARE_SIZE
 from draughts.game import Game
 from draughts.agents.random_agent import RandomAgent
+from draughts.agents.push_from_the_front import PushFromTheFront
 
 # Canvas size:
 WIDTH = 900
@@ -28,7 +29,8 @@ def draw_square(centre, colour):
     centre[1]+(SQUARE_SIZE/2)
 
 game = Game()
-black_player = RandomAgent(game, True)
+black_player = PushFromTheFront(game, True)
+# black_player = RandomAgent(game, True)
 white_player = RandomAgent(game, False)
 game.start(black_player, white_player)
 is_blacks_move = True

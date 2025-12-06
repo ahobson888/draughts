@@ -198,7 +198,6 @@ class Game():
         return moves
     
 
-# daddy pseudo code
     def possible_taking_moves(self, piece, current_move=tuple()):
         if len(current_move) == 0:
             # Trailing comma to create a tuple containing one tuple:
@@ -220,13 +219,33 @@ class Game():
                 move = tuple(l)
                 # Check whether further captures are possible by constructing
                 # a new piece but *without* addding it to the game.
-                extra_taking_moves = self.possible_taking_moves(Piece(piece.name(), pos=nxt_diagonal), current_move=move)
+                ghost_piece = Piece(piece.name(), pos=nxt_diagonal)
+                if piece.is_king:
+                    ghost_piece.is_king = True
+                extra_taking_moves = self.possible_taking_moves(ghost_piece, current_move=move)
 
                 if len(extra_taking_moves) > 0:
                     moves = moves.union(extra_taking_moves)
                 else:
                     moves.add(move)
         return moves
+    
+    def all_taking_moves(self, pieces):
+        taking_moves = set()
+        for piece in pieces:
+            taking_moves = taking_moves.union({(piece, move) for move in self.possible_taking_moves(piece)})
+        return taking_moves
+    
+    def all_nontaking_moves(self, pieces, include_kings):
+        nontaking_moves = set()
+        for piece in pieces:
+            if piece.is_king and not include_kings:
+                continue
+            nontaking_moves = nontaking_moves.union({(piece, move) for move in self.possible_nontaking_moves(piece)})
+        return nontaking_moves
+
+            
+
 
 
     # # Returns a list of possible taking moves (where they are) for the given piece 

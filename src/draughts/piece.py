@@ -55,3 +55,6 @@ class Piece(Actor):
         coords = board_coordinates(new_position[0], new_position[1])
         self.x = coords[0]
         self.y = coords[1]
+
+    def rank(self):
+        return self.position[1]

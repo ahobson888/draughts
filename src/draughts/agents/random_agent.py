@@ -21,9 +21,6 @@ class RandomAgent(Agent):
                 continue
             moves.append((piece, random.choice(list(nontaking_moves))))
         if len(moves) > 0:
-            move = random.choice(list(moves))
-            print("Chosen move")
-            print(move)
-            return move
+            return random.choice(list(moves))
         return None
     
